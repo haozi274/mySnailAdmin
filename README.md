@@ -4,7 +4,7 @@
 
 系统后台预览地址：http://134.175.88.26:8098/sys/login/index 用户名：test 密码：123456
 系统后台预览地址:  [https://admin.mysiteforme.com](https://admin.mysiteforme.com/)  用户名:`admin`  密码:`123456`(该账户不能修改密码)  
-技术交流QQ群：`692984846`  
+
 
 ## [](https://github.com/haozi274/mysiteforme#%E7%B3%BB%E7%BB%9F%E6%9B%B4%E6%96%B0)系统更新
 
@@ -25,6 +25,15 @@
     
     
 
+## 登录
+
+![enter image description here](https://raw.githubusercontent.com/haozi274/mySnailAdmin/master/src/main/resources/static/image/login.png)
+![enter image description here](https://github.com/haozi274/mySnailAdmin/blob/master/src/main/resources/static/image/login2.png?raw=true)
+![enter image description here](https://github.com/haozi274/mySnailAdmin/blob/master/src/main/resources/static/image/main.png?raw=true)
+![enter image description here](https://github.com/haozi274/mySnailAdmin/blob/master/src/main/resources/static/image/meun.png?raw=true)
+![enter image description here](https://github.com/haozi274/mySnailAdmin/blob/master/src/main/resources/static/image/user.png?raw=true)
+![enter image description here](https://github.com/haozi274/mySnailAdmin/blob/master/src/main/resources/static/image/caidan.png?raw=true)
+![enter image description here](https://github.com/haozi274/mySnailAdmin/blob/master/src/main/resources/static/image/userinfo.png?raw=true)
 ## [](https://github.com/haozi274/mysiteforme#%E6%8A%80%E6%9C%AF%E6%A1%86%E6%9E%B6)技术框架
 
 -   核心框架：`SpringBoot`
@@ -57,6 +66,7 @@
 -   将源码导入IDE
 -   将源码路径下的src/main/resources/sql 中的mylayuiadmin.sql导入到数据库
 -   将src\main\resources目录下的application.yml配置文件里的mysql用户名密码改成你本地的
+-   极验证中配置是demo，只有一张图片
 -   安装redis数据库 默认数据库密码为空(注*** 必须安装redis 否则本系统会报错)
 
 -   注册redis系统服务 打开cmd--->切换到安装redis的目录--->`redis-server.exe --service-install redis.windows-service.conf`
