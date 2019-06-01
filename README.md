@@ -58,7 +58,7 @@
 # [](https://github.com/haozi274/mysiteforme#%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83)运行环境
 
 -   WEB服务器：`Weblogic`、`Tomcat`、`WebSphere`、`JBoss`、`Jetty`  等
--   数据库服务器：`Mysql5.5+`
+-   数据库服务器：`Mysql8.0`
 -   操作系统：`Windows`、`Linux`  (Linux 大小写特别敏感 特别要注意,还有Linux上没有微软雅黑字体,需要安装这个字体,用于生成验证码)
 
 # [](https://github.com/haozi274/mysiteforme#%E5%BF%AB%E9%80%9F%E4%BD%93%E9%AA%8C)快速体验
