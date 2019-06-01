@@ -3,7 +3,7 @@
 
 
 系统后台预览地址：http://134.175.88.26:8098/sys/login/index 用户名：test 密码：123456
-系统后台预览地址:  [https://admin.mysiteforme.com](https://admin.mysiteforme.com/)  用户名:`admin`  密码:`123456`(该账户不能修改密码)  
+
 
 
 ## [](https://github.com/haozi274/mysiteforme#%E7%B3%BB%E7%BB%9F%E6%9B%B4%E6%96%B0)系统更新
