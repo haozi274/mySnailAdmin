@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tree-table</title>
+    <link rel="stylesheet" href="../assets/layui/css/layui.css">
+    <link rel="stylesheet" href="../assets/common.css"/>
+</head>
+<body>
+<div class="layui-container">
+    <br><br>
+    <a class="layui-btn layui-btn-normal" href="index.html">&lt;&lt;返回</a>
+    &nbsp;&nbsp;
+    <div class="layui-btn-group">
+        <button class="layui-btn" id="btn-expand">全部展开</button>
+        <button class="layui-btn" id="btn-fold">全部折叠</button>
+        <button class="layui-btn" id="btn-refresh">刷新表格</button>
+    </div>
+
+    <table id="table1" class="layui-table" lay-filter="table1"></table>
+</div>
+<!-- 操作列 -->
+<script type="text/html" id="oper-col">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script src="../assets/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: 'module/'
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['table', 'form', 'element', 'treetable'], function () {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var form = layui.form;
+        var element = layui.element;
+        var treetable = layui.treetable;
+
+        // 渲染表格
+        var renderTable = function () {
+            layer.load(2);
+            treetable.render({
+                treeColIndex: 2,
+                treeSpid: -1,
+                treeIdName: 'd_id',
+                treePidName: 'd_pid',
+                elem: '#table1',
+                url: 'json/data2.json',
+                page: false,
+                cols: [[
+                    {type: 'numbers'},
+                    {field: 'id', title: 'id'},
+                    {field: 'name', title: 'name'},
+                    {field: 'sex', title: 'sex'},
+                    {field: 'pid', title: 'pid'},
+                    {templet: '#oper-col', title: 'oper'}
+                ]],
+                done: function () {
+                    layer.closeAll('loading');
+                }
+            });
+        };
+
+        renderTable();
+
+        $('#btn-expand').click(function () {
+            treetable.expandAll('#table1');
+        });
+
+        $('#btn-fold').click(function () {
+            treetable.foldAll('#table1');
+        });
+
+        $('#btn-refresh').click(function () {
+            renderTable();
+        });
+
+    });
+</script>
+</body>
+</html>

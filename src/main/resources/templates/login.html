@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">输入框</label>
+        <div class="layui-input-block">
+            <input type="text" name="loginName" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码框</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">辅助文字</div>
+    </div>
+
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form();
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            var loadIndex = layer.load(2, {
+                shade: [0.3, '#333']
+            });
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                url: "/sys/dictionary/add",
+                data: JSON.stringify(data.field),
+                dataType: 'json',
+                success: function (result) {
+                    layer.close(loadIndex);
+                    if (result.success) {
+                      //去主页
+                        location.href="/sys/login/main";
+                    } else {
+                        layer.msg(result.message);
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

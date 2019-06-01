@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tree-table</title>
+    <link rel="stylesheet" href="../assets/layui/css/layui.css">
+    <link rel="stylesheet" href="../assets/common.css"/>
+</head>
+<body>
+<div class="layui-container">
+    <br><br>
+    <a class="layui-btn layui-btn-normal" href="index.html">&lt;&lt;返回</a>
+    &nbsp;&nbsp;表格一：
+    <div class="layui-btn-group">
+        <button class="layui-btn" id="btn-expand1">全部展开</button>
+        <button class="layui-btn" id="btn-fold1">全部折叠</button>
+    </div>
+    &emsp;表格二：
+    <div class="layui-btn-group">
+        <button class="layui-btn layui-btn-normal" id="btn-expand2">全部展开</button>
+        <button class="layui-btn layui-btn-normal" id="btn-fold2">全部折叠</button>
+    </div>
+
+    <table id="table1" class="layui-table" lay-filter="table1"></table>
+
+    <table id="table2" class="layui-table" lay-filter="table2"></table>
+</div>
+<!-- 操作列 -->
+<script type="text/html" id="oper-col">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script src="../assets/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: 'module/'
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['table', 'treetable'], function () {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var treetable = layui.treetable;
+
+        // 渲染表格
+        var renderTable1 = function () {
+            treetable.render({
+                treeColIndex: 1,
+                treeSpid: -1,
+                treeIdName: 'id',
+                treePidName: 'pid',
+                treeDefaultClose: true,
+                treeLinkage: false,
+                elem: '#table1',
+                url: 'json/data.json',
+                page: false,
+                cols: [[
+                    {type: 'numbers'},
+                    {field: 'id', title: 'id'},
+                    {field: 'name', title: 'name'},
+                    {field: 'sex', title: 'sex'},
+                    {field: 'pid', title: 'pid'},
+                    {templet: '#oper-col', title: 'oper'}
+                ]]
+            });
+        };
+
+        var renderTable2 = function () {
+            treetable.render({
+                treeColIndex: 1,
+                treeSpid: -1,
+                treeIdName: 'id',
+                treePidName: 'pid',
+                treeDefaultClose: true,
+                treeLinkage: false,
+                elem: '#table2',
+                url: 'json/data.json',
+                page: false,
+                cols: [[
+                    {type: 'numbers'},
+                    {field: 'id', title: 'id'},
+                    {field: 'name', title: 'name'},
+                    {field: 'sex', title: 'sex'},
+                    {field: 'pid', title: 'pid'},
+                    {templet: '#oper-col', title: 'oper'}
+                ]]
+            });
+        };
+
+        renderTable1();
+        renderTable2();
+
+        $('#btn-expand1').click(function () {
+            treetable.expandAll('#table1');
+        });
+
+        $('#btn-fold1').click(function () {
+            treetable.foldAll('#table1');
+        });
+
+        $('#btn-expand2').click(function () {
+            treetable.expandAll('#table2');
+        });
+
+        $('#btn-fold2').click(function () {
+            treetable.foldAll('#table2');
+        });
+
+    });
+</script>
+</body>
+</html>
