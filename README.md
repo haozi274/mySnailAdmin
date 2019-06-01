@@ -11,7 +11,7 @@
 -   原系统使用的七牛云上传的密钥已经失效不能使用
 -   可以更新代码选择系统默认的本地上传
 -   如继续使用旧版也可以去七牛申请10G免费的云存储空间,然后获得密钥,更新到你的配置文件中([点我申请](https://portal.qiniu.com/signup?code=3l8cqxdoe8jf6))
-
+- 系统会持续完善剩下的功能
 
 ## [](https://github.com/haozi274/mysiteforme#%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD)主要功能
 
