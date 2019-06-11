@@ -49,7 +49,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/static/**","anon");
         filterChainDefinitionMap.put("/sys/login/login","anon");
         filterChainDefinitionMap.put("/sys/verify/**","anon");
-        filterChainDefinitionMap.put("/sys/login/main","anon");
+
 
 
         filterChainDefinitionMap.put("/favicon.ico","anon");
