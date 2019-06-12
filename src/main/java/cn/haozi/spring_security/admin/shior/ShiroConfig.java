@@ -49,13 +49,11 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/static/**","anon");
         filterChainDefinitionMap.put("/sys/login/login","anon");
         filterChainDefinitionMap.put("/sys/verify/**","anon");
-
-
-
         filterChainDefinitionMap.put("/favicon.ico","anon");
+
         filterChainDefinitionMap.put("/syslogout","authc");
-        filterChainDefinitionMap.put("/**","authc");
         filterChainDefinitionMap.put("/logout","logout");
+        filterChainDefinitionMap.put("/**","authc");
         bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
         return bean;

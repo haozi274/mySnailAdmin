@@ -150,6 +150,7 @@ public class SysMeunController {
     @ResponseBody
     @SysLog("删除菜单")
     @ApiOperation("删除菜单")
+    @RequiresPermissions("sys:menu:delete")
     public RestResponse delete(@RequestParam(value = "id")  Integer id){
         /**
          * 删除此菜单的所有子菜单

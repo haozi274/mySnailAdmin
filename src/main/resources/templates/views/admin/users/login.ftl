@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="/static/layuiadmin/layui/css/layui.css" media="all">
   <link rel="stylesheet" href=/static/layuiadmin/style/admin.css" media="all">
   <link rel="stylesheet" href="/static/layuiadmin/style/login.css" media="all">
-
+  <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
   <style>
 
     .inp {
@@ -81,42 +81,17 @@
           <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
           <input type="password" name="password" id="password" lay-verify="required" placeholder="密码" class="layui-input">
         </div>
-    <#--    <div class="layui-form-item">
-          <div class="layui-row">
-            <div class="layui-col-xs7">
-              <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
-              <input type="text" name="vercode" id="LAY-user-login-vercode" lay-verify="required" placeholder="图形验证码" class="layui-input">
-            </div>
-            <div class="layui-col-xs5">
-              <div style="margin-left: 10px;">
-                <img src="https://www.oschina.net/action/user/captcha" class="layadmin-user-login-codeimg" id="LAY-user-get-vercode">
-              </div>
-            </div>
-          </div>
-        </div>-->
-
-        <div >
-          <label>完成验证：</label>
-          <div id="captcha2">
-            <p id="wait2" class="show">正在加载验证码......</p>
-          </div>
-        </div>
         <br>
-        <p id="notice2" class="hide">请先完成验证</p>
-        <div class="layui-form-item" style="margin-bottom: 20px;">
-          <input type="checkbox" name="remember" lay-skin="primary" title="记住密码">
-          <a href="forget.html" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>
-        </div>
+
         <div class="layui-form-item">
           <#---->
-          <button class="layui-btn layui-btn-fluid" id="submit2">登 入</button>
+          <button class="layui-btn layui-btn-fluid"  id="TencentCaptcha" data-appid="2033625672" data-cbfn="callback">登 入</button>
         </div>
         <div class="layui-trans layui-form-item layadmin-user-login-other">
-          <label>社交账号登入</label>
+          <label>社交账号</label>
           <a href="javascript:;"><i class="layui-icon layui-icon-login-qq"></i></a>
           <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat"></i></a>
           <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo"></i></a>
-          
           <a href="reg.html" class="layadmin-user-jump-change layadmin-link">注册帐号</a>
         </div>
       </div>
@@ -148,202 +123,67 @@
   </div>
 
   <script src="/static/layuiadmin/layui/layui.js"></script>
-  <script>
-  layui.config({
-    base: '/static/layuiadmin/' //静态资源所在路径
-  }).extend({
-    index: 'lib/index' //主入口模块
-  }).use(['index', 'user'], function(){
-    var $ = layui.$
-    ,setter = layui.setter
-    ,admin = layui.admin
-    ,form = layui.form
-    ,router = layui.router()
-    ,search = router.search;
 
-    form.render();
-
-    //提交
-    form.on('submit(LAY-user-login-submit)', function(obj){
-      //请求登入接口
-
-
-      $.ajax({
-        type: "POST",
-        contentType: "application/json;charset=UTF-8",
-        url: "/sys/login/login",
-        data: JSON.stringify(obj.field),
-        dataType: 'json',
-
-        success: function(result) {
-          console.log(result)
-          if(result.success){
-            location.href="/sys/login/main"
-          }else{
-            console.log(result)
-            layer.msg(result.message);
-          }
-        },
-        error:function(result) {
-          console.log(result.responseJSON.message)
-          layer.close(loadIndex);
-          layer.msg(result.responseJSON.message);
-
-        }
-      });
-
-
-    /*  admin.req({
-        type:'post',
-        url: "/sys/login/login"//实际使用请改成服务端真实接口
-        ,data: obj.field
-        ,done: function(res){
-        
-          //请求成功后，写入 access_token
-          layui.data(setter.tableName, {
-            key: setter.request.tokenName
-            ,value: res.data.access_token
-          });
-          
-          //登入成功的提示与跳转
-          layer.msg('登入成功', {
-            offset: '15px'
-            ,icon: 1
-            ,time: 1000
-          }, function(){
-            location.href = '/sys/login/main'; //后台主页
-          });
-        }
-      });*/
-      
-    });
-    
-    
-    //实际使用时记得删除该代码
-    layer.msg('为了方便演示，用户名密码可随意输入', {
-      offset: '15px'
-      ,icon: 1
-    });
-    
-  });
-  </script>
 
 
   <!-- 引入 gt.js，既可以使用其中提供的 initGeetest 初始化函数 -->
   <script src="/static/layuiadmin/js/gt.js"></script>
   <script>
+    var jquery;
     layui.config({
       base: '/static/layuiadmin/' //静态资源所在路径
     }).extend({
       index: 'lib/index' //主入口模块
-    }).use(['index', 'user'], function(){
+    }).use(['index', 'user'], function() {
       var $ = layui.$
-              ,setter = layui.setter
-              ,admin = layui.admin
-              ,form = layui.form
-              ,router = layui.router()
-              ,search = router.search;
-
+              , setter = layui.setter
+              , admin = layui.admin
+              , form = layui.form
+              , router = layui.router()
+              , search = router.search;
+      jquery = $;
       form.render();
+    })
 
-      //提交
-      form.on('submit(LAY-user-login-submit)', function(obj){
+    var item ={ticket:'',randstr:''};
+    function callback(res){
+      console.log(res)
+      // res（未通过验证）= {ret: 1, ticket: null}
+      // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
+      if(res.ret === 0){
+        // alert(res.ticket)   // 票据
+        console.info(jquery,'验证通过-----',res);
 
-        //请求登入接口
-  /*      admin.req({
-          url: '/sys/login/login' //实际使用请改成服务端真实接口
-          ,data: obj.field
-          ,done: function(res){
-
-            //请求成功后，写入 access_token
-            layui.data(setter.tableName, {
-              key: setter.request.tokenName
-              ,value: res.data.access_token
-            });
-
-            //登入成功的提示与跳转
-            layer.msg('登入成功', {
-              offset: '15px'
-              ,icon: 1
-              ,time: 1000
-            }, function(){
-              location.href = '../'; //后台主页
-            });
-          }
-        });*/
-
-      });
-
-
-      //实际使用时记得删除该代码
-     layer.msg('用户名:test 密码 :123456', {
-        offset: '15px'
-        ,icon: 1
-      });
-      var handler2 = function (captchaObj) {
-        $("#submit2").click(function (e) {
-          var result = captchaObj.getValidate();
-          if (!result) {
-            $("#notice2").show();
-            setTimeout(function () {
-              $("#notice2").hide();
-            }, 2000);
-          } else {
-
-            if ($("#username").val() ==''||$("#password").val()=='') {
-
-              layer.msg("用户名或密码不能为空");
-              return;
-            }
-            $.ajax({
-              url: '/sys/verify/login',
-              type: 'POST',
-              dataType: 'json',
-              data: {
-                userName:$("#username").val(),
-                password:$("#password").val(),
-                geetestChallenge: result.geetest_challenge,
-                geetestValidate: result.geetest_validate,
-                geetestSeccode: result.geetest_seccode
-              },
-              success: function (data) {
-                if (data.success) {
-                  location.href="/sys/login/main"
-                } else  {
-                      layer.msg(data.message);
-                }
-              }
-            })
-          }
-          e.preventDefault();
-        });
-        // 将验证码加到id为captcha的元素里，同时会有三个input的值用于表单提交
-        captchaObj.appendTo("#captcha2");
-        captchaObj.onReady(function () {
-          $("#wait2").hide();
-        });
-        // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
-      };
-      $.ajax({
-        url: "/sys/verify/first?t=" + (new Date()).getTime(), // 加随机数防止缓存
-        type: "get",
-        dataType: "json",
-        success: function (data) {
-          // 调用 initGeetest 初始化参数
-          // 参数1：配置参数
-          // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它调用相应的接口
-          initGeetest({
-            gt: data.gt,
-            challenge: data.challenge,
-            new_captcha: data.new_captcha, // 用于宕机时表示是新验证码的宕机
-            offline: !data.success, // 表示用户后台检测极验服务器是否宕机，一般不需要关注
-            product: "popup", // 产品形式，包括：float，popup
-            width: "100%"
-            // 更多配置参数请参见：http://www.geetest.com/install/sections/idx-client-sdk.html#config
-          }, handler2);
+        item = {
+          ticket:res.ticket,
+          randstr:res.randstr
         }
-      });
-    });
+        if (jquery("#username").val() ==''||jquery("#password").val()=='') {
+          layer.msg("用户名或密码不能为空");
+          return;
+        }
+        jquery.ajax({
+          url: '/sys/verify/ticket',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            username:jquery("#username").val(),
+            password:jquery("#password").val(),
+            ticket:item.ticket,
+            randstr:item.randstr
+          },
+          success: function (data) {
+            if (data.success) {
+              location.href="/sys/login/main"
+            } else  {
+              layer.msg(data.message);
+            }
+          }
+        })
+      }
+    }
+
+
   </script>
 
 

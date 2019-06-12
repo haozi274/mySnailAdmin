@@ -141,7 +141,7 @@ public class SysRoleController {
     public RestResponse delete(@RequestParam(value = "id") int id){
 
         boolean flag = sysRoleService.deleteRole(id);
-        return flag?RestResponse.success():RestResponse.failure("保存失败");
+        return flag?RestResponse.success():RestResponse.failure("角色删除失败");
     }
 
 
