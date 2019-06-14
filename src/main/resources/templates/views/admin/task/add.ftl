@@ -50,7 +50,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">执行方法：</label>
                         <div class="layui-input-block">
-                            <input type="text" name="classMethod" lay-verify="required" placeholder="执行方法" autocomplete="off"
+                            <input type="text" name="methodName" lay-verify="required" placeholder="执行方法" autocomplete="off"
                                    class="layui-input">
                         </div>
                     </div>

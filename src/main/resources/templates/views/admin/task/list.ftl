@@ -77,11 +77,11 @@
                 [
                     {type: 'checkbox', fixed: 'left'}
                     , {type: 'numbers', title: '序号'}
-                    , {field: 'taskName', title: '定时名称', width: '20%'}
-                    , {field: 'className', title: '类名', width: '15%'}
-                    , {field: 'methodName', title: '方法名称', width: '10%'}
-                    , {field: 'cron', title: '执行时间', width: '20%', sort: true},
-                    , {field: 'createTime', title: '创建时间', width: '20%', sort: true}
+                    , {field: 'taskName', title: '定时名称' }
+                    , {field: 'className', title: '类名'}
+                    , {field: 'methodName', title: '方法名称'}
+                    , {field: 'cron', title: '执行时间' ,sort: true}
+                    , {field: 'createTime', title: '创建时间', sort: true}
                 ]
             ]
             , page: true
