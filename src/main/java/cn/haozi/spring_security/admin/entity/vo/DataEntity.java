@@ -2,6 +2,8 @@ package cn.haozi.spring_security.admin.entity.vo;
 
 import cn.haozi.spring_security.admin.utils.ToolUtil;
 import com.alibaba.excel.metadata.BaseRowModel;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -25,12 +27,14 @@ public class DataEntity<T > extends Model  implements Serializable {
     /**
      * 操作人
      */
+    @TableField(fill = FieldFill.INSERT)
     private Integer createBy;
 
     /**
      * 操作时间
      */
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
     /***
@@ -42,6 +46,7 @@ public class DataEntity<T > extends Model  implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime ;
 
+    @TableField(fill = FieldFill.UPDATE)
     private Integer updateBy;
 
     /***

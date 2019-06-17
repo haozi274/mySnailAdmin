@@ -25,13 +25,13 @@ public class Log extends BaseRowModel {
     private Integer id;
 
     @ExcelProperty(value = "操作",index = 0)
-    private String operation; //操作
+    private String operation;
 
     @ExcelProperty(value = "方法名",index = 1)
-    private String method; //方法名
+    private String method;
 
     @ExcelProperty(value = "参数",index = 2)
-    private String params; //参数
+    private String params;
 
 
     @TableField(exist = false)

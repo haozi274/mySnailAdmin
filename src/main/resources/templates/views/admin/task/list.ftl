@@ -162,7 +162,7 @@
 
         $("#addUser").click(function () {
             var addIndex = layer.open({
-                title: "添加字典",
+                title: "添加定时任务",
                 type: 2,
                 area: ['100%', '100%'],
                 content: "/sys/task/add",
