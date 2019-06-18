@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+
+		<div>发送消息:</div>
+		发信人：<input type="text" id="sendId">
+		<input type="button" value="创建id" onclick="CHAT.createUser()"/>
+
+		收信人：<input type="text" id="shouId">
+		<input type="text" id="msgContent"/>
+		<input type="button" value="点我发送" onclick="CHAT.send()"/>
+
+
+		<div>接受消息：</div>
+		<div id="receiveMsg" style="background-color: gainsboro;"></div>
+		<script src="app.js"></script>
+		<script type="application/javascript">
+			
+			window.CHAT = {
+				socket: null,
+				init: function() {
+					if (window.WebSocket) {
+
+						CHAT.socket = new WebSocket("ws://127.0.0.1:8088/ws");
+						CHAT.socket.onopen = function() {
+							console.log("连接建立成功...");
+						},
+						CHAT.socket.onclose = function() {
+							console.log("连接关闭...");
+						},
+						CHAT.socket.onerror = function() {
+							console.log("发生错误...");
+						},
+						CHAT.socket.onmessage = function(e) {
+							console.log("接受到消息：" +e.data );
+							var receiveMsg = document.getElementById("receiveMsg");
+							var html = receiveMsg.innerHTML;
+							receiveMsg.innerHTML = html + "<br/>" + e.data;
+						}
+					} else {
+						alert("浏览器不支持websocket协议...");
+					}
+				},
+				chat: function(msg) {
+					// 构建ChatMsg
+					// 如果当前websocket的状态是已打开，则直接发送， 否则重连
+					if (CHAT.socket != null
+							&& CHAT.socket != undefined
+							&& CHAT.socket.readyState == WebSocket.OPEN) {
+						CHAT.socket.send(msg);
+					} else {
+						// 重连websocket
+						CHAT.init();
+						setTimeout("CHAT.reChat('" + msg + "')", "1000");
+					}
+					// 构建DataContent
+
+
+				}
+				,reChat: function(msg) {
+					console.log("消息重新发送...");
+					CHAT.socket.send(msg);
+				},
+				createUser:function () {
+					var sendId = document.getElementById("sendId").value;
+					var chatMsg = new app.ChatMsg(sendId, null, null, null);
+					// 构建DataContent
+					var dataContent = new app.DataContent(app.CONNECT, chatMsg, null);
+					console.log(dataContent);
+					// 发送websocket
+					CHAT.chat(JSON.stringify(dataContent));
+					/**
+					 * 发送心跳
+					 */
+					// 定时发送心跳
+					setInterval("CHAT.keepalive()", 10000);
+				},
+				keepalive: function() {
+					// 构建对象
+					var dataContent = new app.DataContent(app.KEEPALIVE, null, null);
+					// 发送心跳
+					CHAT.chat(JSON.stringify(dataContent));
+
+					// 定时执行函数
+				/*	fetchUnReadMsg();
+					fetchContactList();*/
+				},
+				send:function () {
+					var msg = document.getElementById("msgContent").value;
+					var sendId = document.getElementById("sendId").value;
+					var shouId = document.getElementById("shouId").value;
+					var chatMsg = new app.ChatMsg(sendId ,shouId,msg, null);
+					var dataContent = new app.DataContent(app.CHAT, chatMsg, null);
+					CHAT.chat(JSON.stringify(dataContent))
+				}
+			};
+			
+			CHAT.init();
+			
+		</script>
+	</body>
+</html>
