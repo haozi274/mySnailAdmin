@@ -2,10 +2,14 @@ package cn.haozi.spring_security.admin.mapper;
 
 import cn.haozi.spring_security.admin.entity.SysUser;
 import cn.haozi.spring_security.admin.entity.vo.UserInfo;
+import cn.haozi.spring_security.chat.entity.ChatUser;
+import cn.haozi.spring_security.chat.entity.GroupName;
+import cn.haozi.spring_security.chat.entity.SysFriend;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +32,10 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
 
     UserInfo findById(int id);
+
+    List<ChatUser> selectFriends(SysFriend friend);
+
+    List<GroupName> selectGroupList(Integer id);
+
+    ChatUser selectChatUser(Integer id);
 }

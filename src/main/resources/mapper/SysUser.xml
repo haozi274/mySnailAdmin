@@ -5,7 +5,27 @@
 
     <select id="findById" parameterType="java.lang.Integer" resultType="cn.haozi.spring_security.admin.entity.vo.UserInfo">
            select u.*,f.url icon_string from sys_user u LEFT JOIN sys_file f on f.id = u.icon where u.id = #{id}
+    </select>
+
+    <!--根据分组查询好友-->
+    <select id="selectFriends" parameterType="cn.haozi.spring_security.chat.entity.SysFriend" resultType="cn.haozi.spring_security.chat.entity.ChatUser">
+
+       SELECT u.id,u.username,u.remark sign,f.url avatar,g.group_name  from sys_user u
+         LEFT JOIN sys_file f on f.id = u.icon
+        LEFT JOIN sys_friends d on d.friend_id = u.id
+        LEFT JOIN group_name g on g.id = d.group_id
+        where d.user_id = #{userId} and d.id = #{groupId};
 
     </select>
 
+    <select id="selectChatUser" parameterType="java.lang.Integer" resultType="cn.haozi.spring_security.chat.entity.ChatUser">
+         SELECT u.id,u.username,u.remark sign,f.url avatar from sys_user u
+            LEFT JOIN sys_file f on f.id = u.icon
+          where u.id = #{id}
+    </select>
+
+    <select id="selectGroupList" parameterType="java.lang.Integer" resultType="cn.haozi.spring_security.chat.entity.GroupName">
+        select * from group_name where user_id = #{id}
+
+    </select>
 </mapper>

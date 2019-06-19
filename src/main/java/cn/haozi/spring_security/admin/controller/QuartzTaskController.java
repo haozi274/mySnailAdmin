@@ -1,25 +1,21 @@
-package com.mysiteforme.admin.controller;
+package cn.haozi.spring_security.admin.controller;
 
-import com.xiaoleilu.hutool.date.DateUtil;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.mysiteforme.admin.entity.QuartzTask;
-import com.mysiteforme.admin.service.QuartzTaskService;
-import com.baomidou.mybatisplus.plugins.Page;
-import com.mysiteforme.admin.util.LayerData;
-import com.mysiteforme.admin.util.RestResponse;
-import com.mysiteforme.admin.annotation.SysLog;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import cn.haozi.spring_security.admin.entity.QuartzTask;
+import cn.haozi.spring_security.admin.service.QuartzTaskService;
+import cn.haozi.spring_security.admin.utils.LayuiUtils;
+import cn.haozi.spring_security.admin.utils.RestResponse;
+import cn.haozi.spring_security.admin.utils.SysLog;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import java.util.Date;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
@@ -38,28 +34,29 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/admin/quartzTask")
+@Slf4j
 public class QuartzTaskController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(QuartzTaskController.class);
 
 
     @Autowired
     private QuartzTaskService quartzTaskService;
 
-    @GetMapping("list")
+    @GetMapping("/list")
     @SysLog("跳转定时任务列表")
     public String list(){
-        return "/admin/quartzTask/list";
+        return "views/admin/quartzTask/list";
     }
 
     @RequiresPermissions("quartz:task:list")
     @PostMapping("list")
     @ResponseBody
-    public LayerData<QuartzTask> list(@RequestParam(value = "page",defaultValue = "1")Integer page,
-                                      @RequestParam(value = "limit",defaultValue = "10")Integer limit,
-                                      ServletRequest request){
+    public LayuiUtils<QuartzTask> list(@RequestParam(value = "page",defaultValue = "1")Integer page,
+                                          @RequestParam(value = "limit",defaultValue = "10")Integer limit,
+                                          ServletRequest request){
         Map map = WebUtils.getParametersStartingWith(request, "s_");
-        LayerData<QuartzTask> layerData = new LayerData<>();
-        EntityWrapper<QuartzTask> wrapper = new EntityWrapper<>();
+        LayuiUtils<QuartzTask>  layerData = new  LayuiUtils<QuartzTask> ();
+        QueryWrapper<QuartzTask> wrapper = new QueryWrapper<>();
+
         wrapper.eq("del_flag",false);
         if(!map.isEmpty()){
             String name = (String) map.get("name");
@@ -77,7 +74,7 @@ public class QuartzTaskController {
             }
 
         }
-        Page<QuartzTask> pageData = quartzTaskService.queryList(wrapper,new Page<>(page,limit));
+        IPage<QuartzTask> pageData = quartzTaskService.queryList(wrapper,new Page<>(page,limit));
         layerData.setData(pageData.getRecords());
         layerData.setCount(pageData.getTotal());
         return layerData;
@@ -85,7 +82,7 @@ public class QuartzTaskController {
 
     @GetMapping("add")
     public String add(){
-        return "/admin/quartzTask/add";
+        return "views/admin/quartzTask/add";
     }
 
     @RequiresPermissions("quartz:task:add")
@@ -98,10 +95,10 @@ public class QuartzTaskController {
     }
 
     @GetMapping("edit")
-    public String edit(Long id,Model model){
-        QuartzTask quartzTask = quartzTaskService.selectById(id);
+    public String edit(Long id, Model model){
+        QuartzTask quartzTask = quartzTaskService.getById(id);
         model.addAttribute("quartzTask",quartzTask);
-        return "/admin/quartzTask/edit";
+        return "views/admin/quartzTask/edit";
     }
 
     @RequiresPermissions("quartz:task:edit")
@@ -120,7 +117,7 @@ public class QuartzTaskController {
     @PostMapping("delete")
     @ResponseBody
     @SysLog("删除定时任务数据")
-    public RestResponse delete(@RequestParam(value = "ids[]",required = false)List<Long> ids){
+    public RestResponse delete(@RequestParam(value = "ids[]",required = false)List<Integer> ids){
         if(null == ids || 0 == ids.size()){
             return RestResponse.failure("ID不能为空");
         }
@@ -136,7 +133,7 @@ public class QuartzTaskController {
     @RequiresPermissions("quartz:task:paush")
     @PostMapping("paush")
     @ResponseBody
-    public RestResponse paush(@RequestParam(value = "ids[]",required = false)List<Long> ids){
+    public RestResponse paush(@RequestParam(value = "ids[]",required = false)List<Integer> ids){
         if(null == ids || 0 == ids.size()){
             return RestResponse.failure("ID不能为空");
         }
@@ -152,7 +149,7 @@ public class QuartzTaskController {
     @RequiresPermissions("quartz:task:resume")
     @PostMapping("resume")
     @ResponseBody
-    public RestResponse resume(@RequestParam(value = "ids[]",required = false)List<Long> ids){
+    public RestResponse resume(@RequestParam(value = "ids[]",required = false)List<Integer> ids){
         if(null == ids || 0 == ids.size()){
             return RestResponse.failure("ID不能为空");
         }
@@ -168,7 +165,7 @@ public class QuartzTaskController {
     @RequiresPermissions("quartz:task:run")
     @PostMapping("run")
     @ResponseBody
-    public RestResponse run(@RequestParam(value = "ids[]",required = false)List<Long> ids){
+    public RestResponse run(@RequestParam(value = "ids[]",required = false)List<Integer> ids){
         if(null == ids || 0 == ids.size()){
             return RestResponse.failure("ID不能为空");
         }

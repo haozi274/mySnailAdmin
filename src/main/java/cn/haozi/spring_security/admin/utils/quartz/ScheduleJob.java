@@ -1,18 +1,12 @@
-package com.mysiteforme.admin.util.quartz;
+package cn.haozi.spring_security.admin.utils.quartz;
 
-import com.mysiteforme.admin.entity.QuartzTask;
-import com.mysiteforme.admin.entity.QuartzTaskLog;
-import com.mysiteforme.admin.service.QuartzTaskLogService;
-import com.mysiteforme.admin.util.SpringUtil;
-import org.apache.commons.lang3.StringUtils;
+import cn.haozi.spring_security.admin.entity.QuartzTask;
+
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -33,7 +27,7 @@ public class ScheduleJob extends QuartzJobBean {
         QuartzTask scheduleJob = (QuartzTask) context.getMergedJobDataMap().get(QuartzTask.JOB_PARAM_KEY);
         String param = scheduleJob.getParams();
         //数据库保存执行记录
-        QuartzTaskLog log = new QuartzTaskLog();
+       /* QuartzTaskLog log = new QuartzTaskLog();
         log.setJobId(scheduleJob.getId());
         log.setTargetBean(scheduleJob.getTargetBean());
         log.setTrgetMethod(scheduleJob.getTrgetMethod());
@@ -47,7 +41,7 @@ public class ScheduleJob extends QuartzJobBean {
 			log.setCreateId(1L);
 			log.setUpdateId(1L);
 		}
-        log.setCreateDate(new Date());
+        log.setCreateDate(new Date());*/
         //任务开始时间
         long startTime = System.currentTimeMillis();
         
@@ -57,28 +51,28 @@ public class ScheduleJob extends QuartzJobBean {
             ScheduleRunnable task = new ScheduleRunnable(scheduleJob.getTargetBean(),
             		scheduleJob.getTrgetMethod(), scheduleJob.getParams());
             Future<?> future = service.submit(task);
-            
+
 			future.get();
-			
+
 			//任务执行总时长
 			long times = System.currentTimeMillis() - startTime;
-			log.setTimes((int)times);
+		//	log.setTimes((int)times);
 			//任务状态    0：成功    1：失败
-			log.setStatus(0);
-			
+		//	log.setStatus(0);
+
 			logger.info("任务执行完毕，任务ID：" + scheduleJob.getId() + "  总共耗时：" + times + "毫秒");
 		} catch (Exception e) {
 			logger.error("任务执行失败，任务ID：" + scheduleJob.getId(), e);
-			
+
 			//任务执行总时长
 			long times = System.currentTimeMillis() - startTime;
-			log.setTimes((int)times);
+		//	log.setTimes((int)times);
 
 			//任务状态    0：成功    1：失败
-			log.setStatus(1);
-			log.setError(e.getMessage());
+		//	log.setStatus(1);
+		//	log.setError(e.getMessage());
 		}finally {
-			log.insert();
+		//	log.insert();
 		}
     }
 }

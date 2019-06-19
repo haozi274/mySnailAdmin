@@ -82,7 +82,6 @@
                     {type: 'checkbox', fixed: 'left'}
                     ,{type: 'numbers', title: '序号'}
                     , {field: 'url', title: '图片',height:80,templet:'<div><img src="{{d.url}}" /></div>'}
-                    , {field: 'status', title: '状态'}
 
                 ]
             ]

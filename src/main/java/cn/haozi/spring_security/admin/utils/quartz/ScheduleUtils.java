@@ -1,8 +1,8 @@
-package com.mysiteforme.admin.util.quartz;
+package cn.haozi.spring_security.admin.utils.quartz;
 
-import com.mysiteforme.admin.entity.QuartzTask;
-import com.mysiteforme.admin.exception.MyException;
-import com.mysiteforme.admin.util.Constants;
+import cn.haozi.spring_security.admin.entity.QuartzTask;
+import cn.haozi.spring_security.admin.exception.MyException;
+import cn.haozi.spring_security.admin.utils.Constants;
 import org.quartz.*;
 
 
@@ -18,21 +18,21 @@ public class ScheduleUtils {
     /**
      * 获取触发器key
      */
-    public static TriggerKey getTriggerKey(Long jobId) {
+    public static TriggerKey getTriggerKey(Integer jobId) {
         return TriggerKey.triggerKey(JOB_NAME + jobId);
     }
     
     /**
      * 获取jobKey
      */
-    public static JobKey getJobKey(Long jobId) {
+    public static JobKey getJobKey(Integer jobId) {
         return JobKey.jobKey(JOB_NAME + jobId);
     }
 
     /**
      * 获取表达式触发器
      */
-    public static CronTrigger getCronTrigger(Scheduler scheduler, Long jobId) {
+    public static CronTrigger getCronTrigger(Scheduler scheduler, Integer jobId) {
         try {
             return (CronTrigger) scheduler.getTrigger(getTriggerKey(jobId));
         } catch (SchedulerException e) {
@@ -54,6 +54,7 @@ public class ScheduleUtils {
 
             //按新的cronExpression表达式构建一个新的trigger
             CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(scheduleJob.getId())).withSchedule(scheduleBuilder).build();
+
 
             //放入参数，运行时的方法可以获取
             jobDetail.getJobDataMap().put(QuartzTask.JOB_PARAM_KEY, scheduleJob);
@@ -118,7 +119,7 @@ public class ScheduleUtils {
     /**
      * 暂停任务
      */
-    public static void pauseJob(Scheduler scheduler, Long jobId) {
+    public static void pauseJob(Scheduler scheduler, Integer jobId) {
         try {
             scheduler.pauseJob(getJobKey(jobId));
         } catch (SchedulerException e) {
@@ -129,7 +130,7 @@ public class ScheduleUtils {
     /**
      * 恢复任务
      */
-    public static void resumeJob(Scheduler scheduler, Long jobId) {
+    public static void resumeJob(Scheduler scheduler, Integer jobId) {
         try {
             scheduler.resumeJob(getJobKey(jobId));
         } catch (SchedulerException e) {
@@ -140,7 +141,7 @@ public class ScheduleUtils {
     /**
      * 删除定时任务
      */
-    public static void deleteScheduleJob(Scheduler scheduler, Long jobId) {
+    public static void deleteScheduleJob(Scheduler scheduler, Integer jobId) {
         try {
             scheduler.deleteJob(getJobKey(jobId));
         } catch (SchedulerException e) {

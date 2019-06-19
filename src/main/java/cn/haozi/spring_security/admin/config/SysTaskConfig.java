@@ -26,9 +26,9 @@ import java.util.List;
  * 定时任务
  */
 @Lazy(value = false)
-@Component
+//@Component
 @Slf4j
-@EnableScheduling
+//@EnableScheduling
 public class SysTaskConfig implements SchedulingConfigurer {
     @Autowired
     private SysTaskService sysTaskService;

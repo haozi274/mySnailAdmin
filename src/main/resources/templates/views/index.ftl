@@ -174,7 +174,18 @@
                         </#if>
 
                     </#list>
+                    <li data-name="senior" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="高级" lay-direction="2">
+                            <i class="layui-icon layui-icon-senior"></i>
+                            <cite>高级</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a layadmin-event="im">LayIM 通讯系统</a>
+                            </dd>
 
+                        </dl>
+                    </li>
                    <#-- <li data-name="home" class="layui-nav-item layui-nav-itemed">
                         <a href="javascript:;" lay-tips="主页" lay-direction="2">
                             <i class="layui-icon layui-icon-home"></i>
@@ -595,6 +606,7 @@
 
 <script src="/static/layuiadmin/layui/layui.js"></script>
 <script>
+
     layui.config({
         base: '/static/layuiadmin/' //静态资源所在路径
     }).extend({

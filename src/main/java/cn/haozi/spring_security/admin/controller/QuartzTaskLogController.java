@@ -1,31 +1,26 @@
-package com.mysiteforme.admin.controller;
+package cn.haozi.spring_security.admin.controller;
 
-import com.xiaoleilu.hutool.date.DateUtil;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.mysiteforme.admin.entity.QuartzTaskLog;
-import com.mysiteforme.admin.service.QuartzTaskLogService;
-import com.baomidou.mybatisplus.plugins.Page;
-import com.mysiteforme.admin.util.LayerData;
-import com.mysiteforme.admin.util.RestResponse;
-import com.mysiteforme.admin.annotation.SysLog;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import cn.haozi.spring_security.admin.entity.QuartzTaskLog;
+import cn.haozi.spring_security.admin.service.QuartzTaskLogService;
+import cn.haozi.spring_security.admin.utils.LayuiUtils;
+import cn.haozi.spring_security.admin.utils.RestResponse;
+import cn.haozi.spring_security.admin.utils.SysLog;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,8 +33,8 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/admin/quartzTaskLog")
+@Slf4j
 public class QuartzTaskLogController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(QuartzTaskLogController.class);
 
     @Autowired
     private QuartzTaskLogService quartzTaskLogService;
@@ -53,12 +48,12 @@ public class QuartzTaskLogController {
     @RequiresPermissions("quartz:log:list")
     @PostMapping("list")
     @ResponseBody
-    public LayerData<QuartzTaskLog> list(@RequestParam(value = "page",defaultValue = "1")Integer page,
-                                      @RequestParam(value = "limit",defaultValue = "10")Integer limit,
-                                      ServletRequest request){
+    public LayuiUtils<QuartzTaskLog> list(@RequestParam(value = "page",defaultValue = "1")Integer page,
+                                          @RequestParam(value = "limit",defaultValue = "10")Integer limit,
+                                          ServletRequest request){
         Map map = WebUtils.getParametersStartingWith(request, "s_");
-        LayerData<QuartzTaskLog> layerData = new LayerData<>();
-        EntityWrapper<QuartzTaskLog> wrapper = new EntityWrapper<>();
+        LayuiUtils<QuartzTaskLog> layerData = new LayuiUtils<>();
+        QueryWrapper<QuartzTaskLog> wrapper = new QueryWrapper<>();
         wrapper.eq("del_flag",false);
         if(!map.isEmpty()){
             String name = (String) map.get("name");
@@ -69,7 +64,7 @@ public class QuartzTaskLogController {
             }
 
         }
-        Page<QuartzTaskLog> pageData = quartzTaskLogService.selectPage(new Page<>(page,limit),wrapper);
+        IPage<QuartzTaskLog> pageData = quartzTaskLogService.page(new Page<>(page,limit),wrapper);
         layerData.setData(pageData.getRecords());
         layerData.setCount(pageData.getTotal());
         return layerData;
@@ -83,13 +78,13 @@ public class QuartzTaskLogController {
     @PostMapping("add")
     @ResponseBody
     public RestResponse add(QuartzTaskLog quartzTaskLog){
-        quartzTaskLogService.insert(quartzTaskLog);
+        quartzTaskLogService.save(quartzTaskLog);
         return RestResponse.success();
     }
 
     @GetMapping("edit")
-    public String edit(Long id,Model model){
-        QuartzTaskLog quartzTaskLog = quartzTaskLogService.selectById(id);
+    public String edit(Long id, Model model){
+        QuartzTaskLog quartzTaskLog = quartzTaskLogService.getById(id);
         model.addAttribute("quartzTaskLog",quartzTaskLog);
         return "/admin/quartzTaskLog/edit";
     }
@@ -112,8 +107,8 @@ public class QuartzTaskLogController {
         if(null == id || 0 == id){
             return RestResponse.failure("ID不能为空");
         }
-        QuartzTaskLog quartzTaskLog = quartzTaskLogService.selectById(id);
-        quartzTaskLog.setDelFlag(true);
+        QuartzTaskLog quartzTaskLog = quartzTaskLogService.getById(id);
+        quartzTaskLog.setDelFlag(1);
         quartzTaskLogService.updateById(quartzTaskLog);
         return RestResponse.success();
     }

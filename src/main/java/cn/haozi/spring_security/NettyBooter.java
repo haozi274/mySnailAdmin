@@ -1,4 +1,4 @@
-package cn.haozi.spring_security.admin;
+package cn.haozi.spring_security;
 
 import cn.haozi.spring_security.common.netty.WSServer;
 import org.springframework.context.ApplicationListener;

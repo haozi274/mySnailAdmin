@@ -1,15 +1,15 @@
-package com.imooc.netty;
+package cn.haozi.spring_security.common.netty;
 
-import java.util.ArrayList;
-import java.util.List;
+import cn.haozi.spring_security.admin.mapper.SysUserMapper;
+import cn.haozi.spring_security.admin.service.SysUserService;
+import cn.haozi.spring_security.admin.utils.JsonUtils;
+import cn.haozi.spring_security.admin.utils.SpringUtil;
+import cn.haozi.spring_security.chat.entity.ChatUser;
+import cn.haozi.spring_security.chat.service.ChatMsgService;
+import cn.haozi.spring_security.common.enums.MsgActionEnum;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.imooc.SpringUtil;
-import com.imooc.enums.MsgActionEnum;
-import com.imooc.service.UserService;
-import com.imooc.utils.JsonUtils;
-
+import com.google.gson.JsonObject;
+import com.xiaoleilu.hutool.bean.BeanUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -17,6 +17,11 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -25,12 +30,13 @@ import io.netty.util.concurrent.GlobalEventExecutor;
  */
 public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
+
 	// 用于记录和管理所有客户端的channle
-	public static ChannelGroup users = 
+	public static ChannelGroup users =
 			new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 	
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) 
+	protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg)
 			throws Exception {
 		// 获取客户端传输过来的消息
 		String content = msg.text();
@@ -58,11 +64,17 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 			String msgText = chatMsg.getMsg();
 			String receiverId = chatMsg.getReceiverId();
 			String senderId = chatMsg.getSenderId();
-			
+
 			// 保存消息到数据库，并且标记为 未签收
-			UserService userService = (UserService)SpringUtil.getBean("userServiceImpl");
-			String msgId = userService.saveMsg(chatMsg);
-			chatMsg.setMsgId(msgId);
+			ChatMsgService chatMsgService = (ChatMsgService) SpringUtil.getBean("chatMsgServiceImpl");
+			SysUserMapper userMapper = (SysUserMapper) SpringUtil.getBean("sysUserMapper");
+		//	String msgId = userService.saveMsg(chatMsg);
+			cn.haozi.spring_security.chat.entity.ChatMsg chatMsg1 = new cn.haozi.spring_security.chat.entity.ChatMsg();
+			chatMsg1.setSendId(Integer.parseInt(chatMsg.getSenderId()));
+			chatMsg1.setAcceptId(Integer.parseInt(chatMsg.getReceiverId()));
+			chatMsg1.setMsg(chatMsg.getMsg());
+		//	chatMsgService.save(chatMsg1);
+		//	chatMsg.setMsgId(msgId);
 			
 			DataContent dataContentMsg = new DataContent();
 			dataContentMsg.setChatMsg(chatMsg);
@@ -74,12 +86,18 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 				// TODO channel为空代表用户离线，推送消息（JPush，个推，小米推送）
 			} else {
 				// 当receiverChannel不为空的时候，从ChannelGroup去查找对应的channel是否存在
+				ChatUser user =userMapper.selectChatUser(Integer.parseInt(dataContent.getChatMsg().getReceiverId()));
+				JsonObject jsonObject = new JsonObject();
+				jsonObject.addProperty("username",user.getUsername());
+				jsonObject.addProperty("avatar",user.getAvatar());
+				jsonObject.addProperty("id",user.getId());
+				jsonObject.addProperty("content",dataContentMsg.getChatMsg().getMsg());
 				Channel findChannel = users.find(receiverChannel.id());
 				if (findChannel != null) {
 					// 用户在线
 					receiverChannel.writeAndFlush(
 							new TextWebSocketFrame(
-									JsonUtils.objectToJson(dataContentMsg)));
+									String.valueOf(jsonObject)));
 				} else {
 					// 用户离线 TODO 推送消息
 				}
@@ -87,7 +105,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 			
 		} else if (action == MsgActionEnum.SIGNED.type) {
 			//  2.3  签收消息类型，针对具体的消息进行签收，修改数据库中对应消息的签收状态[已签收]
-			UserService userService = (UserService)SpringUtil.getBean("userServiceImpl");
+		//	UserService userService = (UserService)SpringUtil.getBean("userServiceImpl");
 			// 扩展字段在signed类型的消息中，代表需要去签收的消息id，逗号间隔
 			String msgIdsStr = dataContent.getExtand();
 			String msgIds[] = msgIdsStr.split(",");
@@ -103,7 +121,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 			
 			if (msgIdList != null && !msgIdList.isEmpty() && msgIdList.size() > 0) {
 				// 批量签收
-				userService.updateMsgSigned(msgIdList);
+			//	userService.updateMsgSigned(msgIdList);
 			}
 			
 		} else if (action == MsgActionEnum.KEEPALIVE.type) {

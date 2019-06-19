@@ -2,18 +2,17 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>定时任务添加--${site.name}</title>
+    <title>定时任务添加--</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <meta name="description" content="${site.description}"/>
-    <meta name="keywords" content="${site.keywords}"/>
-    <meta name="author" content="${site.author}"/>
-    <link rel="icon" href="${site.logo}">
-    <link rel="stylesheet" href="${base}/static/layui/css/layui.css" media="all" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/static/layuiadmin/assets/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/layuiadmin/assets/common.css"/>
     <style type="text/css">
         .layui-form-item .layui-inline{ width:33.333%; float:left; margin-right:0; }
         @media(max-width:1240px){
@@ -63,19 +62,17 @@
         <label class="layui-form-label">执行用户</label>
         <div class="layui-input-block">
             <select name="params">
-                <option value="${currentUser.id}"><#if currentUser.nickName!''>${currentUser.nickName}<#else>${currentUser.loginName}</#if></option>
             </select>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">任务状态</label>
         <div class="layui-input-block">
+            <select name="status" lay-verify="">
+                <option value="0">正常</option>
+                <option value="1" >暂停</option>
+            </select>
 
-            <@my type="quartz_task_status">
-                <#list result as r>
-                <input type="radio" name="status"  value="${r.value}" title="${r.label}">
-                </#list>
-            </@my>
         </div>
     </div>
     <div class="layui-form-item">
@@ -91,7 +88,7 @@
         </div>
     </div>
 </form>
-<script type="text/javascript" src="${base}/static/layui/layui.js"></script>
+<script src="/static/layuiadmin/assets/layui/layui.js"></script>
 <script>
     layui.use(['form','jquery','layer'],function(){
         var form      = layui.form,
@@ -104,7 +101,7 @@
             var loadIndex = layer.load(2, {
                 shade: [0.3, '#333']
             });
-            $.post("${base}/admin/quartzTask/add",data.field,function(res){
+            $.post("/admin/quartzTask/add",data.field,function(res){
                 layer.close(loadIndex);
                 if(res.success){
                     parent.layer.msg("定时任务添加成功！",{time:1000},function(){

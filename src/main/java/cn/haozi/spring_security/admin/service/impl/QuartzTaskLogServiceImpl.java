@@ -1,9 +1,10 @@
-package com.mysiteforme.admin.service.impl;
+package cn.haozi.spring_security.admin.service.impl;
 
-import com.mysiteforme.admin.entity.QuartzTaskLog;
-import com.mysiteforme.admin.dao.QuartzTaskLogDao;
-import com.mysiteforme.admin.service.QuartzTaskLogService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import cn.haozi.spring_security.admin.entity.QuartzTaskLog;
+import cn.haozi.spring_security.admin.mapper.QuartzTaskLogDao;
+import cn.haozi.spring_security.admin.service.QuartzTaskLogService;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,4 +1,4 @@
-package com.imooc.enums;
+package cn.haozi.spring_security.common.enums;
 
 /**
  * 

@@ -1,8 +1,8 @@
-package com.imooc.netty;
-
-import java.util.HashMap;
+package cn.haozi.spring_security.common.netty;
 
 import io.netty.channel.Channel;
+
+import java.util.HashMap;
 
 /**
  * @Description: 用户id和channel的关联关系处理

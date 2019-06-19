@@ -1,7 +1,8 @@
-package com.mysiteforme.admin.service;
+package cn.haozi.spring_security.admin.service;
 
-import com.mysiteforme.admin.entity.QuartzTaskLog;
-import com.baomidou.mybatisplus.service.IService;
+import cn.haozi.spring_security.admin.entity.QuartzTaskLog;
+import com.baomidou.mybatisplus.extension.service.IService;
+
 /**
  * <p>
  * 任务执行日志 服务类

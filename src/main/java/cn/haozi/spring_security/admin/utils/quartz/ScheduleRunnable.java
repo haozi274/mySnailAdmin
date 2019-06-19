@@ -1,7 +1,7 @@
-package com.mysiteforme.admin.util.quartz;
+package cn.haozi.spring_security.admin.utils.quartz;
 
-import com.mysiteforme.admin.exception.MyException;
-import com.mysiteforme.admin.util.SpringUtil;
+import cn.haozi.spring_security.admin.exception.MyException;
+import cn.haozi.spring_security.admin.utils.SpringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.ReflectionUtils;
 

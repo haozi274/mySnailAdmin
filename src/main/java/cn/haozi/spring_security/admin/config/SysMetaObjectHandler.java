@@ -21,27 +21,26 @@ public class SysMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        Object createDate = getFieldValByName("createDate",metaObject);
-        Object createId = getFieldValByName("createId",metaObject);
-        Object updateDate = getFieldValByName("updateDate",metaObject);
-        Object updateId = getFieldValByName("updateId",metaObject);
+        Object createDate = getFieldValByName("createTime",metaObject);
+        Object createId = getFieldValByName("createBy",metaObject);
+        Object updateDate = getFieldValByName("updateTime",metaObject);
+        Object updateId = getFieldValByName("updateBy",metaObject);
 
         if (null == createDate) {
-            setFieldValByName("createDate", new Date(),metaObject);
+            setFieldValByName("createTime", new Date(),metaObject);
         }
         if (null == createId) {
             if(MySysUser.ShiroUser() != null) {
-                setFieldValByName("createId", MySysUser.id(), metaObject);
+                setFieldValByName("createBy", MySysUser.id(), metaObject);
             }
         }
         if (null == updateDate) {
-            setFieldValByName("updateDate", new Date(),metaObject);
+            setFieldValByName("updateTime", new Date(),metaObject);
         }
         if (null == updateId) {
             if (MySysUser.ShiroUser() != null) {
-                setFieldValByName("updateId", MySysUser.id(), metaObject);
+                setFieldValByName("updateBy", MySysUser.id(), metaObject);
             }
-
         }
     }
 
@@ -51,10 +50,10 @@ public class SysMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-        setFieldValByName("updateDate",new Date(), metaObject);
-        Object updateId = getFieldValByName("updateId",metaObject);
+        setFieldValByName("updateTime",new Date(), metaObject);
+        Object updateId = getFieldValByName("updateBy",metaObject);
         if (null == updateId) {
-            setFieldValByName("updateId", MySysUser.id(), metaObject);
+            setFieldValByName("updateBy", MySysUser.id(), metaObject);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.imooc.netty;
+package cn.haozi.spring_security.common.netty;
 
 import java.io.Serializable;
 

@@ -1,13 +1,15 @@
-package com.mysiteforme.admin.service.impl;
+package cn.haozi.spring_security.admin.service.impl;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
-import com.mysiteforme.admin.entity.QuartzTask;
-import com.mysiteforme.admin.dao.QuartzTaskDao;
-import com.mysiteforme.admin.service.QuartzTaskService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.mysiteforme.admin.util.Constants;
-import com.mysiteforme.admin.util.quartz.ScheduleUtils;
+import cn.haozi.spring_security.admin.entity.QuartzTask;
+import cn.haozi.spring_security.admin.mapper.QuartzTaskDao;
+import cn.haozi.spring_security.admin.service.QuartzTaskService;
+import cn.haozi.spring_security.admin.utils.Constants;
+import cn.haozi.spring_security.admin.utils.quartz.ScheduleUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
 import org.quartz.CronTrigger;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +39,9 @@ public class QuartzTaskServiceImpl extends ServiceImpl<QuartzTaskDao, QuartzTask
      */
     @PostConstruct
     public void init(){
-        EntityWrapper<QuartzTask> wrapper = new EntityWrapper<>();
+        QueryWrapper<QuartzTask> wrapper = new QueryWrapper<>();
         wrapper.eq("del_flag",false);
-        List<QuartzTask> scheduleJobList = selectList(wrapper);
+        List<QuartzTask> scheduleJobList = list(wrapper);
         for(QuartzTask scheduleJob : scheduleJobList){
             CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, scheduleJob.getId());
             //如果不存在，则创建
@@ -52,13 +54,13 @@ public class QuartzTaskServiceImpl extends ServiceImpl<QuartzTaskDao, QuartzTask
     }
 
     @Override
-    public QuartzTask queryObject(Long jobId) {
+    public QuartzTask queryObject(Integer jobId) {
         return baseMapper.selectById(jobId);
     }
 
     @Override
-    public Page<QuartzTask> queryList(EntityWrapper<QuartzTask> wrapper, Page<QuartzTask> page) {
-        return selectPage(page,wrapper);
+    public IPage<QuartzTask> queryList(QueryWrapper<QuartzTask> wrapper, Page<QuartzTask> page) {
+        return page(page,wrapper);
     }
 
     @Override
@@ -74,16 +76,16 @@ public class QuartzTaskServiceImpl extends ServiceImpl<QuartzTaskDao, QuartzTask
     }
 
     @Override
-    public void deleteBatchTasks(List<Long> ids) {
-        for(Long id : ids){
+    public void deleteBatchTasks(List<Integer> ids) {
+        for(Integer id : ids){
             ScheduleUtils.deleteScheduleJob(scheduler, id);
         }
-        deleteBatchIds(ids);
+       baseMapper.deleteBatchIds(ids);
     }
 
     @Override
-    public int updateBatchTasksByStatus(List<Long> ids, Integer status) {
-        List<QuartzTask> list = selectBatchIds(ids);
+    public int updateBatchTasksByStatus(List<Integer> ids, Integer status) {
+        List<QuartzTask> list = baseMapper.selectBatchIds(ids);
         for (QuartzTask task : list){
             task.setStatus(status);
         }
@@ -92,23 +94,23 @@ public class QuartzTaskServiceImpl extends ServiceImpl<QuartzTaskDao, QuartzTask
     }
 
     @Override
-    public void run(List<Long> jobIds) {
-        for(Long jobId : jobIds){
+    public void run(List<Integer> jobIds) {
+        for(Integer jobId : jobIds){
             ScheduleUtils.run(scheduler, queryObject(jobId));
         }
     }
 
     @Override
-    public void paush(List<Long> jobIds) {
-        for(Long jobId : jobIds){
+    public void paush(List<Integer> jobIds) {
+        for(Integer jobId : jobIds){
             ScheduleUtils.pauseJob(scheduler, jobId);
         }
         updateBatchTasksByStatus(jobIds, Constants.QUARTZ_STATUS_PUSH);
     }
 
     @Override
-    public void resume(List<Long> jobIds) {
-        for(Long jobId : jobIds){
+    public void resume(List<Integer> jobIds) {
+        for(Integer jobId : jobIds){
             ScheduleUtils.resumeJob(scheduler, jobId);
         }
 

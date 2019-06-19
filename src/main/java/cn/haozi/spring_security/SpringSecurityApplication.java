@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@MapperScan("cn.haozi.spring_security.admin.mapper")
+@MapperScan("cn.haozi.spring_security.*.mapper")
 public class SpringSecurityApplication extends WebMvcConfigurerAdapter {
 
     public static void main(String[] args) {

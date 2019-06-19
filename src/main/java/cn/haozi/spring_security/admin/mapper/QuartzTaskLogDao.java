@@ -1,7 +1,8 @@
-package com.mysiteforme.admin.dao;
+package cn.haozi.spring_security.admin.mapper;
 
-import com.mysiteforme.admin.entity.QuartzTaskLog;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
+import cn.haozi.spring_security.admin.entity.QuartzTaskLog;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
 
 /**
  * <p>

@@ -1,10 +1,10 @@
-package com.imooc.utils;
-
-import java.util.List;
+package cn.haozi.spring_security.admin.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.List;
 
 /**
  * @Description: 自定义响应结构, 转换类

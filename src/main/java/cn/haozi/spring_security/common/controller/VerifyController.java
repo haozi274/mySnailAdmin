@@ -130,7 +130,12 @@ public class VerifyController {
         return null;
     }
 
-
+    /**
+     * 腾讯防水墙
+     * @param verifyTicket
+     * @param request
+     * @return
+     */
     @PostMapping("/ticket")
     public  RestResponse verifyTicket( VerifyTicket verifyTicket, HttpServletRequest request) {
         CloseableHttpClient httpclient = HttpClients.createDefault();
