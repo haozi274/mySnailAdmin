@@ -5,6 +5,7 @@ import cn.haozi.spring_security.admin.service.SysUserService;
 import cn.haozi.spring_security.admin.utils.JsonUtils;
 import cn.haozi.spring_security.admin.utils.SpringUtil;
 import cn.haozi.spring_security.chat.entity.ChatUser;
+import cn.haozi.spring_security.chat.mapper.ChatMsgMapper;
 import cn.haozi.spring_security.chat.service.ChatMsgService;
 import cn.haozi.spring_security.common.enums.MsgActionEnum;
 
@@ -66,16 +67,17 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 			String senderId = chatMsg.getSenderId();
 
 			// 保存消息到数据库，并且标记为 未签收
-			ChatMsgService chatMsgService = (ChatMsgService) SpringUtil.getBean("chatMsgServiceImpl");
+			ChatMsgMapper chatMsgMapper = (ChatMsgMapper) SpringUtil.getBean("chatMsgMapper");
 			SysUserMapper userMapper = (SysUserMapper) SpringUtil.getBean("sysUserMapper");
 		//	String msgId = userService.saveMsg(chatMsg);
 			cn.haozi.spring_security.chat.entity.ChatMsg chatMsg1 = new cn.haozi.spring_security.chat.entity.ChatMsg();
 			chatMsg1.setSendId(Integer.parseInt(chatMsg.getSenderId()));
 			chatMsg1.setAcceptId(Integer.parseInt(chatMsg.getReceiverId()));
 			chatMsg1.setMsg(chatMsg.getMsg());
-		//	chatMsgService.save(chatMsg1);
+
+		//	chatMsgMapper.saveChatmsg(chatMsg1);
 		//	chatMsg.setMsgId(msgId);
-			
+			cn.haozi.spring_security.chat.entity.ChatMsg chatMsg2 = chatMsgMapper.selectById(1);
 			DataContent dataContentMsg = new DataContent();
 			dataContentMsg.setChatMsg(chatMsg);
 			

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.haozi.spring_security.chat.mapper.ChatMsgMapper" >
+
+        <insert id="saveChatmsg" parameterType="cn.haozi.spring_security.chat.entity.ChatMsg">
+
+            insert into chat_msg (send_id,accept_id,msg) values(#{sendId},#{acceptId},#{msg})
+        </insert>
+
+</mapper>

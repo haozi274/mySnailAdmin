@@ -1,8 +1,6 @@
 package cn.haozi.spring_security.chat.service.impl;
 
-import cn.haozi.spring_security.admin.entity.SysUser;
 import cn.haozi.spring_security.admin.mapper.SysUserMapper;
-import cn.haozi.spring_security.admin.utils.RestResponse;
 import cn.haozi.spring_security.chat.entity.ChatData;
 import cn.haozi.spring_security.chat.entity.ChatUser;
 import cn.haozi.spring_security.chat.entity.GroupName;

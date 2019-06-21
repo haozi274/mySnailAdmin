@@ -38,4 +38,6 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     List<GroupName> selectGroupList(Integer id);
 
     ChatUser selectChatUser(Integer id);
+
+    List<ChatUser> selectChatUserList(String userName);
 }

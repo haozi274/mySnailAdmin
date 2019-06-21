@@ -18,6 +18,13 @@
 
     </select>
 
+    <!--根据昵称查找好友-->
+    <select id="selectChatUserList" parameterType="java.lang.String" resultType="cn.haozi.spring_security.chat.entity.ChatUser">
+          SELECT u.id,u.username,u.remark sign,f.url avatar from sys_user u
+            LEFT JOIN sys_file f on f.id = u.icon
+          where u.usernmae like CONCAT('${userName}','%')
+    </select>
+
     <select id="selectChatUser" parameterType="java.lang.Integer" resultType="cn.haozi.spring_security.chat.entity.ChatUser">
          SELECT u.id,u.username,u.remark sign,f.url avatar from sys_user u
             LEFT JOIN sys_file f on f.id = u.icon

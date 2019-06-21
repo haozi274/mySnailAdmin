@@ -13,17 +13,20 @@ import java.io.Serializable;
  * 聊天信息
  */
 @Data
-@TableName("chat_msg")
-public class ChatMsg   extends DataEntity<ChatMsg> implements Serializable {
+public class ChatMsg   implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer id;
 
+    @TableField("send_id")
     private Integer sendId;
 
+    @TableField("accept_id")
     private Integer acceptId;
 
+    @TableField("msg")
     private String msg;
 
+    @TableField("status")
     private Integer status;
 
 

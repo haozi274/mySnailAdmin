@@ -22,8 +22,8 @@ public class SysFriendController extends BaseController {
     @GetMapping("/list")
     @ResponseBody
     public RestResponse list(ChatUser chatUser){
-        SysUser user =  getCurrentUser();
-        chatUser.setId(user.getId());
+       /* SysUser user =  getCurrentUser();
+        chatUser.setId(user.getId());*/
         RestResponse data = new RestResponse();
         data.setData(sysFriendService.selectFriends(chatUser));
         data.setCode(0);

@@ -29,8 +29,6 @@ public class ShiroConfig {
         ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
         bean.setSecurityManager(securityManager(authRealm));
 
-
-
         bean.setSuccessUrl("/sys/login/main");
         bean.setLoginUrl("/sys/login/index");
         bean.setUnauthorizedUrl("/sys/login/401");
@@ -50,6 +48,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/sys/login/login","anon");
         filterChainDefinitionMap.put("/sys/verify/**","anon");
         filterChainDefinitionMap.put("/favicon.ico","anon");
+        filterChainDefinitionMap.put("/sys/chat/**","anon");
 
         filterChainDefinitionMap.put("/syslogout","authc");
         filterChainDefinitionMap.put("/logout","logout");
