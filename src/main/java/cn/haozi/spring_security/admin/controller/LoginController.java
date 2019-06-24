@@ -97,7 +97,7 @@ public class LoginController extends BaseController {
         wrapper.eq("login_name",
                 user2.getLoginName());
         SysUser user = sysUserService.getOne(wrapper);
-       List<TreeEntity> meunlist =  sysMeunService.findByUserId(user.getId());
+        List<TreeEntity> meunlist =  sysMeunService.findByUserId(user.getId());
         UserInfo userInfo = sysUserService.findUserInfo(user2.getId());
          model.addAttribute("userInfo",userInfo);
         model.addAttribute("meunlist",meunlist);

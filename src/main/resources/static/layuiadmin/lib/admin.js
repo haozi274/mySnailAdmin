@@ -602,7 +602,8 @@ layui.define('view', function(exports){
     
     //呼出IM 示例
     ,im: function(){
-      admin.popup({
+      layui.use('im');
+  /*    admin.popup({
         id: 'LAY-popup-layim-demo' //定义唯一ID，防止重复弹出
         ,shade: 0
         ,area: ['800px', '300px']
@@ -614,7 +615,7 @@ layui.define('view', function(exports){
             layui.use('im');
           });
         }
-      })
+      })*/
     }
   };
   

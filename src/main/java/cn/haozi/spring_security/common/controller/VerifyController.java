@@ -43,6 +43,8 @@ public class VerifyController {
 //    private RedisUtil redisUtil;
     StringRedisTemplate stringRedisTemplate;
 
+
+
     private GeetestConfig geetestConfig;
 
     private TCaptchaVerifyConfig tCaptchaVerifyConfig;

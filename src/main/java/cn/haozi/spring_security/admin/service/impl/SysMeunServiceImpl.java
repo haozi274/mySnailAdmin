@@ -33,8 +33,9 @@ public class SysMeunServiceImpl extends ServiceImpl<SysMeunMapper, SysMenu> impl
      *
      * @return
      */
-    @Cacheable(cacheNames  = "menuShow",key = "keyGenerator")
+    @Cacheable(value  = "menuShow",key = "keyGenerator")
     public List<TreeEntity> findAllList(boolean flag) {
+        System.out.println("缓存。。。。。。。。。。。。。。。。。。。。。。。");
         QueryWrapper<SysMenu> wrapper = new QueryWrapper<>();
         if (!flag) {
             wrapper.eq("is_show", "1");
@@ -80,9 +81,10 @@ public class SysMeunServiceImpl extends ServiceImpl<SysMeunMapper, SysMenu> impl
 
         return this.baseMapper.findMenuByRoleId(roleId);
     }
-
+    @Cacheable(value  = "menuShow",key = "#userId")
     @Override
     public List<TreeEntity> findByUserId(Integer userId) {
+        System.out.println("缓存。。。。。。。。。。。。。。。。。。。。。。。");
         List<SysMenu> list = baseMapper.findByUserId(userId);
         List<TreeEntity> treeEntityList = new ArrayList<>();
         return selectMeun(null, list, treeEntityList);

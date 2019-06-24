@@ -13,7 +13,7 @@ import java.io.Serializable;
  * 聊天信息
  */
 @Data
-public class ChatMsg   implements Serializable {
+public class ChatMsg  extends DataEntity<ChatMsg> implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer id;
 

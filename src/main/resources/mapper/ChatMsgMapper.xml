@@ -6,5 +6,12 @@
 
             insert into chat_msg (send_id,accept_id,msg) values(#{sendId},#{acceptId},#{msg})
         </insert>
+        
+    <select id="chatList" parameterType="cn.haozi.spring_security.chat.entity.ChatMsg" resultType="cn.haozi.spring_security.chat.entity.dto.ChatMsgDTO">
+        SELECT a.id ,b.username, c.url avatar ,a.create_time timestamp , a.msg content from chat_msg a
+		LEFT JOIN sys_user b on a.send_id = b.id
+		LEFT JOIN sys_file c on c.id = b.icon
+		ORDER BY a.create_time desc
 
+    </select>
 </mapper>
