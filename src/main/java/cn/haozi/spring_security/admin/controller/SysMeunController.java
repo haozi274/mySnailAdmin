@@ -49,7 +49,6 @@ public class SysMeunController {
         return "views/admin/meun/list";
     }
 
-
     /**
      * 查询菜单列表
      * @return

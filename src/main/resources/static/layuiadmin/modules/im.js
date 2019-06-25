@@ -6,7 +6,6 @@
  @License: LPPL
     
  */
-
 window.CHAT = {
   socket: null,
   init: function() {

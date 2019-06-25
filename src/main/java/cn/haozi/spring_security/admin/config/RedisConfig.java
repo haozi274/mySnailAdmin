@@ -20,7 +20,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import java.time.Duration;
 
 @Configuration
-@EnableCaching//开启注解
+//开启注解
 public class RedisConfig extends CachingConfigurerSupport {
     /**
      * 自定义redis key值生成策略

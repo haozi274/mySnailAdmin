@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaoleilu.hutool.bean.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,9 +77,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @CacheEvict 应用到删除数据的方法上，调用方法时会从缓存中删除对应key的数据
      * @return
      */
-   // @CacheEvict(value = "user", key = "#result.id", condition = "#result eq true")
+    @CacheEvict(value = "user", key = "#result.id", condition = "#result eq true")
     @Override
     public boolean removeUserById(Integer id) {
+        System.out.println("缓存。。。。。。。。。。。。。。。。。。。。");
         QueryWrapper<SysUserRole> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",id);
         List<SysUserRole> list = sysUserRoleMapper.selectList(wrapper);
@@ -134,9 +136,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return this.baseMapper.updateById(sysUser)>0?true:false;
     }
 
-    @CachePut(value = "user",key = "#result.id",unless = "#result.id == null ")
+    @CachePut(value = "user",key = "#result.id")
     @Override
     public SysUser findById(Integer id) {
+        System.out.println("缓存。。。。。。。。。。。。。。。。。。。。");
         return this.getById(id);
     }
 

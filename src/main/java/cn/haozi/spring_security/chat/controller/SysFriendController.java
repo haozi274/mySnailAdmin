@@ -95,6 +95,28 @@ public class SysFriendController extends BaseController {
     }
 
     /**
+     * 查询未读信息并签收消息
+     * @param chatMsgDTO
+     * @return
+     */
+    @GetMapping("/readChat")
+    public RestResponse readChat(ChatMsgDTO chatMsgDTO){
+        RestResponse daata = new RestResponse();
+        int id = getCurrentUser().getId();
+        QueryWrapper<ChatMsg> wrapper = new QueryWrapper<>();
+        wrapper.eq("send_id",id);
+        wrapper.eq("accept_id",chatMsgDTO.getId());
+        wrapper.eq("status","0");
+        List<ChatMsg> list =  chatMsgService.list(wrapper);
+        list.stream().forEach(v->{
+            v.setStatus(1);
+            chatMsgService.updateById(v);
+        });
+        daata.setData(daata);
+        return daata;
+    }
+
+    /**
      * 搜索好友
      */
     @GetMapping("/searchFirend")
@@ -111,9 +133,7 @@ public class SysFriendController extends BaseController {
         return "views/admin/chat/find";
      }
 
-    /**
-     * 同意好友
-     */
+
 
 
 }

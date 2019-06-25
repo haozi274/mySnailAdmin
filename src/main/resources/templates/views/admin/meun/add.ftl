@@ -72,7 +72,7 @@
             <div class="layui-col-lg6">
               <label class="layui-form-label">左侧菜单是否显示：</label>
               <div class="layui-input-block">
-                <input type="checkbox" id="isShow" value="0" name="is_show" lay-skin="switch" lay-filter="is_show" lay-text="是|否">
+                <input type="checkbox" id="isShow" value="0" name="isShow" lay-skin="switch" lay-filter="is_show" lay-text="是|否">
               </div>
             </div>
             <div class="layui-col-lg6">
@@ -116,7 +116,7 @@
           shade: [0.3, '#333']
         });
 
-        data.field.is_show= data.field.is_show==undefined||data.field.is_show==""?0: 1;
+        data.field.isShow= data.field.isShow==undefined||data.field.isShow==""?0: 1;
         $.ajax({
           type: "POST",
           contentType: "application/json;charset=UTF-8",
