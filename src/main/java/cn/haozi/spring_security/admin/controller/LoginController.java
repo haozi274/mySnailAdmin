@@ -37,43 +37,6 @@ import java.util.Map;
 @AllArgsConstructor
 public class LoginController extends BaseController {
 
-    /***
-     * 跳转去登录页
-     *//*
-    @PostMapping("/login")
-    @ResponseBody
-    public RestResponse login(@RequestBody SysUser sysUser){
-        Subject user = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(sysUser.getLoginName(),sysUser.getPassword(),true);
-        Map<String,String> map = new LinkedHashMap<>();
-        String error = "";
-        try {
-            user.login(token);
-            user.getPrincipal();
-            if (user.isAuthenticated()) {
-                map.put("url","/sys/login/main");
-            }
-        }catch (IncorrectCredentialsException e) {
-            error = "登录密码错误.";
-        } catch (ExcessiveAttemptsException e) {
-            error = "登录失败次数过多";
-        } catch (LockedAccountException e) {
-            error = "帐号已被锁定.";
-        } catch (DisabledAccountException e) {
-            error = "帐号已被禁用.";
-        } catch (ExpiredCredentialsException e) {
-            error = "帐号已过期.";
-        } catch (UnknownAccountException e) {
-            error = "帐号不存在";
-        } catch (UnauthorizedException e) {
-            error = "您没有得到相应的授权！";
-        }
-        if (StringUtils.isBlank(error)) {
-            return RestResponse.success().setData(map);
-        }else{
-            return RestResponse.failure(error);
-        }
-    }*/
     @GetMapping("/index")
     public String index(){
         return "views/admin/users/login";
@@ -90,9 +53,7 @@ public class LoginController extends BaseController {
     @GetMapping("/main")
     public String index(Model model) {
         SysUser user2 = getCurrentUser();
-        if (user2 == null) {
-            throw new MyException("未登录");
-        }
+
         QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
         wrapper.eq("login_name",
                 user2.getLoginName());

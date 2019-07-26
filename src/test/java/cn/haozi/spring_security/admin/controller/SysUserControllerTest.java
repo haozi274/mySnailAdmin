@@ -55,4 +55,26 @@ public class SysUserControllerTest {
         sysUserService.page(new Page<>(1,2));
         System.out.println("aaa");
     }
+    @Test
+    public void test4(){
+        A<String,Integer> a = Integer::valueOf;
+        Integer v = a.play("12312");
+        System.out.println(v);
+    }
+}
+
+interface  A<T,E>{
+
+     E play(T a);
+}
+class Demo{
+
+}
+class Demo2 extends  Demo{
+
+}
+
+
+interface B<F extends Demo> {
+
 }

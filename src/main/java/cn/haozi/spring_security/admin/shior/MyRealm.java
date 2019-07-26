@@ -21,11 +21,13 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,8 +39,11 @@ import java.util.Set;
 @AllArgsConstructor
 @Component("myRealm")
 public class MyRealm extends AuthorizingRealm {
+    @Lazy
     private SysUserService sysUserService;
+    @Lazy
     private SysRoleService sysRoleService;
+    @Lazy
     private SysMeunService sysMeunService;
 
 
@@ -113,6 +118,7 @@ public class MyRealm extends AuthorizingRealm {
                 ByteSource.Util.bytes(salt),
                 getName()  //realm name
         );
+
         return authenticationInfo;
     }
 
