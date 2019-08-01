@@ -2,6 +2,7 @@ package cn.haozi.spring_security.admin.service;
 
 import cn.haozi.spring_security.admin.entity.QuartzTaskLog;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author wangl
  * @since 2018-01-25
  */
+@Transactional(rollbackFor = Exception.class)
 public interface QuartzTaskLogService extends IService<QuartzTaskLog> {
 
 }

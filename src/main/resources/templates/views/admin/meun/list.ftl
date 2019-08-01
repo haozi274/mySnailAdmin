@@ -38,11 +38,7 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <#--  <div class="layui-btn-group">
-                      <button class="layui-btn" id="btn-expand">全部展开</button>
-                      <button class="layui-btn" id="btn-fold">全部折叠</button>
-                      <button class="layui-btn" id="btn-refresh">刷新表格</button>
-                  </div>-->
+
                 <div class="layui-btn-container" style="margin: 0 auto">
                     <br>
 
@@ -56,6 +52,7 @@
             </div>
         </div>
     </div>
+</div>
     <!-- 操作列 -->
     <script type="text/html" id="barDemo">
         {{# if(d.description == null || d.description == "" || d.description == undefined || d.description.indexOf('系统')<0){ }}

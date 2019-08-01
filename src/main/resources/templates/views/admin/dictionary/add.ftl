@@ -20,12 +20,13 @@
             <div class="layui-card-header">填写字典信息</div>
             <div class="layui-card-body">
                 <form class="layui-form" action="" lay-filter="component-form-element">
+                    <input type="hidden" name="parentId" value="${sysDictionary.parentId}">
                     <div class="layui-row layui-col-space10 layui-form-item">
                         <div class="layui-col-lg6">
                             <label class="layui-form-label">类型：</label>
                             <div class="layui-input-block">
-                                <input type="text" name="type" value="${type}"
-                                       <#if type!="">disabled</#if>
+                                <input type="text" name="type" value="${sysDictionary.type}"
+                                       <#if sysDictionary.type!="">disabled</#if>
                                        lay-verify="required" placeholder="" autocomplete="off"
                                        class="layui-input">
                             </div>

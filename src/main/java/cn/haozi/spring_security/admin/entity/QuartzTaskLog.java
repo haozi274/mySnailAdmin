@@ -1,9 +1,11 @@
 package cn.haozi.spring_security.admin.entity;
 
 import cn.haozi.spring_security.admin.entity.vo.DataEntity;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
+
+import java.util.Date;
 
 
 /**
@@ -16,17 +18,18 @@ import lombok.Data;
  */
 @TableName("quartz_task_log")
 @Data
-public class QuartzTaskLog extends DataEntity<QuartzTaskLog> {
+public class QuartzTaskLog   extends DataEntity<QuartzTaskLog>{
 
     private static final long serialVersionUID = 1L;
 
+	@TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
      * 任务ID
      */
 	@TableField("job_id")
-	private Long jobId;
+	private Integer jobId;
     /**
      * 定时任务名称
      */
@@ -34,12 +37,10 @@ public class QuartzTaskLog extends DataEntity<QuartzTaskLog> {
     /**
      * 定制任务执行类
      */
-	@TableField("target_bean")
 	private String targetBean;
     /**
      * 定时任务执行方法
      */
-	@TableField("trget_method")
 	private String trgetMethod;
     /**
      * 执行参数
@@ -57,6 +58,8 @@ public class QuartzTaskLog extends DataEntity<QuartzTaskLog> {
      * 执行时间
      */
 	private Integer times;
+
+
 
 
 	@Override

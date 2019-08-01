@@ -1,5 +1,6 @@
 package cn.haozi.spring_security.admin.utils;
 
+import cn.haozi.spring_security.fish.entity.FishCategory;
 import lombok.Data;
 
 import java.util.List;
@@ -16,6 +17,14 @@ public class LayuiUtils<T> {
     private List<T> data;
     private String msg = "";
     private String  parentId ;
+
+    public static LayuiUtils data(List data ,Long count ,String msg){
+        LayuiUtils<FishCategory> layuiUtils = new LayuiUtils<>();
+        layuiUtils.setData(data);
+        layuiUtils.setCount(count);
+        layuiUtils.setMsg(msg);
+        return layuiUtils;
+    }
 
 
 }

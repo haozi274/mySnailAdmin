@@ -37,14 +37,14 @@ public class SysDictionaryController {
     @GetMapping("/list")
     @SysLog("跳转去字典数据页面")
     public String list(){
-        return  "views/admin/dictionary/list";
+        return  "views/admin/dictionary/list1";
     }
 
     @RequiresPermissions("sys:dic:list")
     @ResponseBody
     @SysLog("查询字典数据")
-    @PostMapping("list")
-    public LayuiUtils<SysDictionary> list(@RequestBody SysDictionaryDTO sysDictionaryDTO){
+    @GetMapping("findAllList")
+    public LayuiUtils<SysDictionary> list( SysDictionaryDTO sysDictionaryDTO){
         QueryWrapper<SysDictionary> wrapper = new QueryWrapper<>();
         if (StringUtils.isNotBlank(sysDictionaryDTO.getType())){
             wrapper.eq("type",sysDictionaryDTO.getType());
@@ -60,8 +60,16 @@ public class SysDictionaryController {
     @GetMapping("/add")
     @SysLog("跳转去添加字典页面")
     @ApiIgnore
-    public String add(Model model,  String type){
-        model.addAttribute("type",type==null?"":type);
+    public String add(Model model, String type,Integer parentId){
+        SysDictionary sysDictionary = new SysDictionary();
+        if (type == null) {
+            sysDictionary.setType("");
+            sysDictionary.setParentId(-1);
+        }else{
+            sysDictionary.setType(type);
+            sysDictionary.setParentId(parentId);
+        }
+        model.addAttribute("sysDictionary",sysDictionary);
         return "views/admin/dictionary/add";
     }
 
@@ -76,8 +84,7 @@ public class SysDictionaryController {
         return flag ?RestResponse.success():RestResponse.failure("添加失败");
     }
 
-
-    @RequiresPermissions("sys:dic:delete")
+    @RequiresPermissions("sys:dic:list")
     @PostMapping("/delete_by_id")
     @ResponseBody
     @SysLog("删除字典数据")

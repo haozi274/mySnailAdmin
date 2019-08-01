@@ -48,8 +48,8 @@ public class LogController {
     public LayuiUtils<Log> list(@RequestBody SysLogDTO sysLogDTO){
 
         IPage<Log> page = new Page<>();
-        page.setCurrent(1); // 当前页
-        page.setSize(10); // 页大小
+        page.setCurrent(sysLogDTO.getPage()); // 当前页
+        page.setSize(sysLogDTO.getLimit()); // 页大小
         QueryWrapper<Log> wrapper =new QueryWrapper<>();
         //排序
         wrapper.orderByDesc("create_time");

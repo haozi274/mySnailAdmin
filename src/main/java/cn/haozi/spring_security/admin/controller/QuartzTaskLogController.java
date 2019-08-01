@@ -42,7 +42,7 @@ public class QuartzTaskLogController {
     @GetMapping("list")
     @SysLog("跳转任务执行日志列表")
     public String list(){
-        return "/admin/quartzTaskLog/list";
+        return "views/admin/quartzTaskLog/list";
     }
 
     @RequiresPermissions("quartz:log:list")
@@ -54,7 +54,6 @@ public class QuartzTaskLogController {
         Map map = WebUtils.getParametersStartingWith(request, "s_");
         LayuiUtils<QuartzTaskLog> layerData = new LayuiUtils<>();
         QueryWrapper<QuartzTaskLog> wrapper = new QueryWrapper<>();
-        wrapper.eq("del_flag",false);
         if(!map.isEmpty()){
             String name = (String) map.get("name");
             if(StringUtils.isNotBlank(name)) {

@@ -34,7 +34,7 @@ layui.define(['admin', 'table', 'util'], function(exports){
   
   //标题内容模板
   var tplTitle = function(d){
-    return '<a href="detail.html?id='+ d.id +'">'+ d.title;
+    return '<a href="detail.yml?id='+ d.id +'">'+ d.title;
   };
   
   //全部消息

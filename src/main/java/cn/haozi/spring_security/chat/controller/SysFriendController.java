@@ -4,6 +4,7 @@ import cn.haozi.spring_security.admin.base.BaseController;
 import cn.haozi.spring_security.admin.entity.SysUser;
 import cn.haozi.spring_security.admin.mapper.SysUserMapper;
 import cn.haozi.spring_security.admin.utils.RestResponse;
+import cn.haozi.spring_security.chat.entity.ChatData;
 import cn.haozi.spring_security.chat.entity.ChatMsg;
 import cn.haozi.spring_security.chat.entity.ChatUser;
 import cn.haozi.spring_security.chat.entity.dto.ChatMsgDTO;
@@ -26,9 +27,10 @@ import java.util.Map;
 /**
  * 查询好友列表
  */
-@AllArgsConstructor
+
 @Controller
 @RequestMapping("/sys/chat")
+@AllArgsConstructor
 public class SysFriendController extends BaseController {
 
     private SysFriendService sysFriendService;
@@ -40,10 +42,11 @@ public class SysFriendController extends BaseController {
     @GetMapping("/list")
     @ResponseBody
     public RestResponse list(ChatUser chatUser){
+        RestResponse data = new RestResponse();
        SysUser user =  getCurrentUser();
         chatUser.setId(user.getId());
-        RestResponse data = new RestResponse();
-        data.setData(sysFriendService.selectFriends(chatUser));
+        ChatData<ChatUser > result =  sysFriendService.selectFriends(chatUser);
+        data.setData(result);
         data.setCode(0);
         return data;
     }

@@ -14,6 +14,7 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,9 +25,8 @@ import java.util.UUID;
 /***
  * 七牛云上传
  */
-@RestController
-@RequestMapping("/sys/qiniu")
-public class QiniuController {
+@Component
+public class QiniuUtils {
 
     @Autowired
     private ConstantQiniu constantQiniu;
@@ -38,8 +38,7 @@ public class QiniuController {
      * @return
      * @throws IOException
      */
-    @PostMapping("/qiniu")
-    @ResponseBody
+
     public RestResponse uploadImgQiniu(@RequestParam("file") MultipartFile multipartFile) throws IOException {
 
         FileInputStream inputStream = (FileInputStream) multipartFile.getInputStream();

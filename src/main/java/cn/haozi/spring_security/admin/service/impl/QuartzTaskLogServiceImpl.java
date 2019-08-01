@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 2018-01-25
  */
 @Service
-@Transactional(rollbackFor = Exception.class)
 public class QuartzTaskLogServiceImpl extends ServiceImpl<QuartzTaskLogDao, QuartzTaskLog> implements QuartzTaskLogService {
 
 }

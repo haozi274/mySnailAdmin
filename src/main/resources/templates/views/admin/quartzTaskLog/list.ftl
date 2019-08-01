@@ -2,20 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>任务执行日志--${site.name}</title>
+    <title>任务执行日志</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="description" content="${site.description}"/>
-    <meta name="keywords" content="${site.keywords}"/>
-    <meta name="author" content="${site.author}"/>
-    <link rel="icon" href="${site.logo}">
-    <link rel="stylesheet" href="${base}/static/layui/css/layui.css" media="all" />
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
-    <link rel="stylesheet" href="${base}/static/css/user.css" media="all" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/static/layuiadmin/assets/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/layuiadmin/assets/common.css"/>
 </head>
 <body class="childrenBody">
 <fieldset class="layui-elem-field">
@@ -37,25 +30,42 @@
     </form>
   </div>
 </fieldset>
-<div class="layui-form users_list">
-    <table class="layui-table" id="test" lay-filter="demo"></table>
-    <script type="text/html" id="userStatus">
-        <!-- 这里的 checked 的状态只是演示 -->
-        {{#  if(d.delFlag == false){ }}
-        <span class="layui-badge layui-bg-green">正常</span>
-        {{#  } else { }}
-        <span class="layui-badge layui-bg-gray">停用</span>
-        {{#  } }}
-    </script>
 
-    <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    </script>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+
+                <div class="layui-btn-container" style="margin: 0 auto">
+                    <br>
+
+                </div>
+                <div class="layui-row layui-col-space10 layui-form-item">
+
+                    <div class="layui-card-body">
+                        <table class="layui-table" id="test" lay-filter="demo"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div id="page"></div>
-<script type="text/javascript" src="${base}/static/layui/layui.js"></script>
-<script type="text/javascript" src="${base}/static/js/tools.js"></script>
+
+<script type="text/html" id="userStatus">
+    <!-- 这里的 checked 的状态只是演示 -->
+    {{#  if(d.delFlag == false){ }}
+    <span class="layui-badge layui-bg-green">正常</span>
+    {{#  } else { }}
+    <span class="layui-badge layui-bg-gray">停用</span>
+    {{#  } }}
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script src="/static/layuiadmin/assets/layui/layui.js"></script>
+<script src="/static/layuiadmin/js/tools.js"></script>
 <script>
     layui.use(['layer','form','table','laydate'], function() {
         var layer = layui.layer,
@@ -71,7 +81,7 @@
             if(obj.event === "del"){
                 layer.confirm("你确定要删除该任务执行日志么？",{btn:['是的,我确定','我再想想']},
                         function(){
-                            $.post("${base}/admin/quartzTaskLog/delete",{"id":data.id},function (res){
+                            $.post("/admin/quartzTaskLog/delete",{"id":data.id},function (res){
                                 if(res.success){
                                     layer.msg("删除成功",{time: 1000},function(){
                                         location.reload();
@@ -88,7 +98,7 @@
 
         var t = {
             elem: '#test',
-            url:'${base}/admin/quartzTaskLog/list',
+            url:'/admin/quartzTaskLog/list',
             method:'post',
             width: $(parent.window).width()-223,
             page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档

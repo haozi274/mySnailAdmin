@@ -145,7 +145,7 @@
         var index;
         upload.render({
             elem: '#test1',
-            url: '/sys/qiniu/qiniu',
+            url: '/sys/file/upload',
             multiple: false,
             before: function(obj){
                index =   layer.load(); //上传loading

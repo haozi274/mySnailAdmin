@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/static/layuiadmin/assets/layui/css/layui.css">
     <link rel="stylesheet" href="/static/layuiadmin/assets/common.css"/>
 </head>
-<body class="childrenBody">
+<body class="childrenBody" style="background: white;">
 <fieldset class="layui-elem-field">
   <legend>定时任务检索</legend>
   <div class="layui-field-box">
@@ -48,30 +48,49 @@
     </form>
   </div>
 </fieldset>
-<div class="layui-form users_list">
-    <table class="layui-table" id="test" lay-filter="demo"></table>
-    <script type="text/html" id="status">
-        {{#  if(d.status == 0){ }}
-          <span  class="layui-badge layui-bg-blue"> 正常</span>
-        {{# } }}
-        {{#  if(d.status == 1){ }}
 
-         <span  class="layui-badge layui-bg-badge"> 暂停</span>
-        {{# } }}
-    </script>
-    <script type="text/html" id="barDemo">
-        {{#  if(d.status == 0){ }}
-        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="paush">暂停</a>
-        {{# }else{ }}
-        <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="resume">恢复</a>
-        {{# } }}
-        <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="run">立即执行</a>
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
 
-    </script>
+                <div class="layui-btn-container" style="margin: 0 auto">
+                    <br>
+
+                </div>
+                <div class="layui-row layui-col-space10 layui-form-item">
+
+                    <div class="layui-card-body">
+                        <table class="layui-table" id="test" lay-filter="demo"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div id="page"></div>
+
+
+<script type="text/html" id="status">
+    {{#  if(d.status == 0){ }}
+    <span  class="layui-badge layui-bg-blue"> 正常</span>
+    {{# } }}
+    {{#  if(d.status == 1){ }}
+
+    <span  class="layui-badge layui-bg-badge"> 暂停</span>
+    {{# } }}
+</script>
+<script type="text/html" id="barDemo">
+    {{#  if(d.status == 0){ }}
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="paush">暂停</a>
+    {{# }else{ }}
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="resume">恢复</a>
+    {{# } }}
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="run">立即执行</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+</script>
+
 <script src="/static/layuiadmin/assets/layui/layui.js"></script>
 <script src="/static/layuiadmin/js/tools.js"></script>
 
@@ -195,7 +214,7 @@
                 {field:'status', title: '任务状态',templet:'#status'},
                 {field:'remarks',    title: '任务说明',width:'15%'},
                 {field:'createTime',  title: '创建时间',width:'15%',unresize: true}, //单元格内容水平居中
-                {fixed: 'right', title:'操作',  width: '15%', align: 'center',toolbar: '#barDemo'}
+                {fixed: 'right', title:'操作',  width: '20%', align: 'center',toolbar: '#barDemo'}
             ]]
         };
         table.render(t);

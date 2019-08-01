@@ -35,7 +35,6 @@ public class SysMeunServiceImpl extends ServiceImpl<SysMeunMapper, SysMenu> impl
      */
     @Cacheable(value  = "menuShow",key = "keyGenerator")
     public List<TreeEntity> findAllList(boolean flag) {
-        System.out.println("缓存。。。。。。。。。。。。。。。。。。。。。。。");
         QueryWrapper<SysMenu> wrapper = new QueryWrapper<>();
         if (!flag) {
             wrapper.eq("is_show", "1");
@@ -84,7 +83,6 @@ public class SysMeunServiceImpl extends ServiceImpl<SysMeunMapper, SysMenu> impl
     @Cacheable(value  = "menuShow",key = "#userId")
     @Override
     public List<TreeEntity> findByUserId(Integer userId) {
-        System.out.println("缓存。。。。。。。。。。。。。。。。。。。。。。。");
         List<SysMenu> list = baseMapper.findByUserId(userId);
         List<TreeEntity> treeEntityList = new ArrayList<>();
         return selectMeun(null, list, treeEntityList);
@@ -118,7 +116,6 @@ public class SysMeunServiceImpl extends ServiceImpl<SysMeunMapper, SysMenu> impl
                 selectMeun(entity, sysMenuList, treeEntityList);
             }
         }
-
         if (treeEntity != null) {
             treeEntity.setList(childList);
         } else {

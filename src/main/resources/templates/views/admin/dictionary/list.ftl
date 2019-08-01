@@ -38,6 +38,7 @@
                 <a class="layui-btn layuiadmin-btn-admin" id="addUser" data-type="addUser1">添加</a>
             </div>
             <table id="test-table-toolbar" lay-filter="test-table-toolbar"></table>
+
         </div>
     </div>
     </div>
